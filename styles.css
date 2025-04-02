@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #7c3aed;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--dark);
+    overflow-x: hidden;
+}
+/* Add glow to headers */
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6); /* Subtle white glow */
+}
+
+
+.gradient-bg {
+    background: var(--gradient);
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.hero-section {
+    background-image: 
+        linear-gradient(to bottom, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7)),
+        url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 80vh;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.testimonial-card {
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.animate-bounce-slow {
+    animation: bounce 4s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Chatbot Styles */
+#chat-widget-container {
+    /* Ensure it's above other elements if needed */
+}
+
+#chat-fab i {
+    transition: transform 0.3s ease;
+}
+
+#chat-fab.open i {
+    transform: rotate(180deg);
+}
+
+#chat-window {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: bottom right;
+}
+
+#chat-window.hidden {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    pointer-events: none;
+}
+
+#chat-messages {
+    /* Custom scrollbar (optional, webkit browsers) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) #e5e7eb; /* thumb track */
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 3px;
+}
+
+/* Style for bot messages */
+.message-bot {
+    display: flex;
+}
+.message-bot > div {
+    background-color: #DBEAFE; /* blue-100 */
+    color: #1E3A8A; /* blue-900 */
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+/* Style for user messages */
+.message-user {
+    display: flex;
+    justify-content: flex-end;
+}
+.message-user > div {
+    background-color: #E5E7EB; /* gray-200 */
+    color: #1F2937; /* gray-800 */
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+/* Typing indicator */
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: #9CA3AF; /* gray-400 */
+    border-radius: 50%;
+    animation: typing 1s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+
+.shape-blur {
+    filter: blur(60px);
+    opacity: 0.15;
+}
