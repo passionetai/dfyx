@@ -1,4 +1,5 @@
 require('dotenv').config(); // Load environment variables from .env file
+console.log('Starting server...');
 const express = require('express');
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
 const fs = require('fs').promises; // Use promises version of fs
@@ -40,9 +41,13 @@ app.use(cors()); // Enable CORS for all origins (simplest for local dev)
 // --- API Endpoint ---
 app.post('/api/chat', async (req, res) => {
     try {
+        console.log('Received chat request');
         const { message, history } = req.body; // Get message and history from frontend
+        console.log('Message:', message);
+        console.log('History length:', history ? history.length : 0);
 
         if (!message) {
+            console.log('Error: Message is required');
             return res.status(400).json({ error: 'Message is required' });
         }
 
@@ -101,11 +106,14 @@ app.post('/api/chat', async (req, res) => {
         });
 
         // --- Send User Message and Get Response ---
+        console.log('Sending message to Gemini API...');
         const result = await chat.sendMessage(message); // Send the new user message
         const response = result.response;
         const botReply = response.text();
+        console.log('Received response from Gemini API');
 
         res.json({ reply: botReply });
+        console.log('Response sent to client');
 
     } catch (error) {
         console.error("Error processing chat request:", error);
@@ -114,6 +122,7 @@ app.post('/api/chat', async (req, res) => {
              console.error("Prompt Feedback:", error.response.promptFeedback);
              res.status(400).json({ error: "Request blocked due to safety settings.", details: error.response.promptFeedback });
         } else {
+             console.error("Stack trace:", error.stack);
              res.status(500).json({ error: 'Failed to get response from AI model' });
         }
     }
@@ -126,9 +135,23 @@ app.post('/api/chat', async (req, res) => {
 // and ensure the fetch URL in script.js points to this backend server (e.g., http://localhost:3000/api/chat).
 // app.use(express.static(__dirname)); // Serves files from the current directory
 
+// --- Serve Static Files ---
+app.use(express.static(__dirname)); // Serves files from the current directory
+
 // --- Start Server ---
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
-    console.log("Ensure GEMINI_API_KEY is set in your .env file.");
+    console.log("GEMINI_API_KEY:", API_KEY ? "Found" : "Not found");
     console.log("Run 'npm install express @google/generative-ai dotenv' if you haven't already.");
 });
+
+// Keep the server running
+process.on('SIGINT', () => {
+    console.log('Server shutting down...');
+    server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+    });
+});
+
+console.log('Server setup complete. Waiting for requests...');
